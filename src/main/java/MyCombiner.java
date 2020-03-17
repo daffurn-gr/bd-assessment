@@ -31,8 +31,8 @@ public class MyCombiner extends Reducer<Pair, Text, Pair, Text> {
 		while (iter.hasNext()) {
 			Text documentTitle = iter.next();
 			// <(document,length), null>. 
-			if (documentTitle.equals(null)) {
-				context.write(key, null);
+			if (key.getFrequency().get() == 0) {
+				context.write(key, documentTitle);
 			// <(term,1), [doc1, doc2, ...]>.
 			} else {	
 				try {

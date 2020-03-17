@@ -38,6 +38,8 @@ public class MyIndexer extends Configured implements Tool {
 		// 4. Set input and output paths; remember, these will be HDFS paths or URLs
 		job.setInputFormatClass(TextInputFormat.class);
 		FileInputFormat.addInputPath(job, new Path(args[0]));
+        job.setMapOutputKeyClass(Pair.class);
+        job.setMapOutputValueClass(Text.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));		

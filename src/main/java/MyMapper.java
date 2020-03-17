@@ -20,13 +20,14 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Text> {
 	
 	static enum Counters { NUM_RECORDS, NUM_TOKENS }
 
-	private Text termKeyComponent        = new Text();
-	private final static IntWritable one = new IntWritable(1);
-	private Pair termFreqencyPair        = new Pair();
+	private Text termKeyComponent         = new Text();
+	private final static IntWritable zero = new IntWritable(0);
+	private final static IntWritable one  = new IntWritable(1);
+	private Pair termFreqencyPair         = new Pair();
 	
-	private Text documentTitle           = new Text();
-	private IntWritable documentLength   = new IntWritable();
-	private Set<String> patternsToSkip   = new HashSet<String>();
+	private Text documentTitle            = new Text();
+	private Text documentLength           = new Text();
+	private Set<String> patternsToSkip    = new HashSet<String>();
 	
 
 	/* Parse stopwords file and add to patternsToSkip.
@@ -101,9 +102,9 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Text> {
 			context.getCounter(Counters.NUM_TOKENS).increment(1);
 		}
 		// Emit <(documentTitle, documentLength), documentLength>.
-		this.documentLength.set(length);
-		this.termFreqencyPair.set(this.documentTitle, this.documentLength);
-		context.write(this.termFreqencyPair, null);
+		this.documentLength.set(Integer.toString(length));
+		this.termFreqencyPair.set(this.documentTitle, zero);
+		context.write(this.termFreqencyPair, this.documentLength);
 		// Increment Counter NUM_RECORDS.
 		context.getCounter(Counters.NUM_RECORDS).increment(1);	
 	}	

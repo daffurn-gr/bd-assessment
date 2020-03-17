@@ -44,7 +44,7 @@ public class MyReducer extends Reducer<Pair, Text, Text, Text> {
 		if ((this.currentTerm != null) && (this.currentTerm != term)) {
 			this.outKey.set(this.currentTerm);
 			this.outValue.set(this.postings.toString());
-			mos.write(this.outKey, this.outValue, "document_sizes");
+			mos.write(this.outKey, this.outValue, "postings");
 			this.postings.clear();				
 		}
 		// Update current term.
@@ -52,9 +52,10 @@ public class MyReducer extends Reducer<Pair, Text, Text, Text> {
 		// Add new (document, frequency) pairs to postings.
 		for (Iterator<Text> iter = values.iterator(); iter.hasNext();) {
 			Text termOrDocument = iter.next();		
-			if (termOrDocument.equals(null)) {
-				this.outValue.set(key.getFrequency().toString());
-				mos.write(this.outKey, this.outValue, "postings");
+			if (key.getFrequency().get() == 0) {
+				this.outKey.set(term);
+				this.outValue.set(termOrDocument.toString());
+				mos.write(this.outKey, this.outValue, "documentSizes");
 			} else {
 				this.posting[0] = termOrDocument.toString();
 				this.posting[1] = freq;
