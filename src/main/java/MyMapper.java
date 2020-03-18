@@ -101,9 +101,9 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Pair> {
 			// Check if new term.
 			if (currentTermFreq != null) {
 				int currFreq = currentTermFreq.intValue();
-				termDocFrequencies.put(docTitle, currFreq++);
+				termDocFrequencies.put(term, currFreq++);
 			} else {
-				termDocFrequencies.put(docTitle, 1);
+				termDocFrequencies.put(term, 1);
 			} length++;
 			context.getCounter(Counters.NUM_TOKENS).increment(1);}
 			
