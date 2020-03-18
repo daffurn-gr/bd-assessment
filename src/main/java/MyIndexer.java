@@ -1,5 +1,6 @@
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -45,6 +46,9 @@ public class MyIndexer extends Configured implements Tool {
 		MultipleOutputs.addNamedOutput(job, "documentSizes", TextOutputFormat.class, Text.class, Text.class);
 
 		// 5. Set other misc configuration parameters (#reducer tasks, counters, env variables, etc.)
+		FileSystem fs = FileSystem.get(conf);
+		fs.copyFromLocalFile(new Path("file:///users/pgt/0801624s/uog-bigdata/src/main/resources/stopword-list.txt"), 
+				new Path("hdfs://bigdata-10.dcs.gla.ac.uk:8020/user/0801624s/stopword-list.txt"));
 		job.addCacheFile(new Path("/src/main/resources/stopword-list.txt").toUri());
 		job.getConfiguration().setBoolean("wordcount.skip.patterns", true);
 		//job.setNumReduceTasks(2);
