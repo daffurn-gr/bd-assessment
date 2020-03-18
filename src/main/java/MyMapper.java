@@ -71,8 +71,8 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Text> {
 	
 	/*  
 	 * Input: (k, v) = (byteOoffset, documentContents).
-	 * Output: <k, v> = <(term, 1), document>;
-	 *         <k, v> = <(documentTitle, documentLength), documentLength>). 
+	 * Output: <k, v> = <(term, 1), documentTitle>;
+	 *         <k, v> = <(documentTitle, 0), documentLength>). 
 	 */
 	@Override
 	public void map(LongWritable key, Text value, Context context)
@@ -101,7 +101,7 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Text> {
 			// Increment Counter NUM_TOKENS.
 			context.getCounter(Counters.NUM_TOKENS).increment(1);
 		}
-		// Emit <(documentTitle, documentLength), documentLength>.
+		// Emit <(documentTitle, 0), documentLength>.
 		this.documentLength.set(Integer.toString(length));
 		this.termFreqencyPair.set(this.documentTitle, zero);
 		context.write(this.termFreqencyPair, this.documentLength);

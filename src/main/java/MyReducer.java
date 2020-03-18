@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class MyReducer extends Reducer<Pair, Text, Text, Text> {
 		// If new term is countered then emit the old term with its posting list.
 		if ((this.currentTerm != null) && (this.currentTerm != term)) {
 			this.outKey.set(this.currentTerm);
-			this.outValue.set(this.postings.toString());
+			this.outValue.set(Arrays.toString(this.postings.toArray()));
 			mos.write(this.outKey, this.outValue, "postings");
 			this.postings.clear();				
 		}

@@ -16,8 +16,8 @@ public class MyCombiner extends Reducer<Pair, Text, Pair, Text> {
 	private Map<String, Integer> termDocFrequencies = new HashMap<String, Integer>(); 
 	
 	/* Combines the values for terms in a given document. 
-	 * Input:  <k, v> = <(term, 1), [doc1, doc2, ...]>; (k, v) = <(document,length), null>.
-	 * Output: <k, v> = <(term, frequency), doc>; (k, v) = <(document,length), null>. 
+	 * Input:  <k, v> = <(term, 1), [doc1, doc2, ...]>; (k, v) = <(document,0), length>.
+	 * Output: <k, v> = <(term, frequency), doc>; (k, v) = <(document,0), length>. 
 	 * Code from the wcv3 Reducer class. 
 	 */
 	@Override
@@ -30,7 +30,7 @@ public class MyCombiner extends Reducer<Pair, Text, Pair, Text> {
 		Iterator<Text> iter = values.iterator();
 		while (iter.hasNext()) {
 			Text documentTitle = iter.next();
-			// <(document,length), null>. 
+			// <(document,0), length>. 
 			if (key.getFrequency().get() == 0) {
 				context.write(key, documentTitle);
 			// <(term,1), [doc1, doc2, ...]>.
