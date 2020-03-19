@@ -48,10 +48,9 @@ public class MyIndexer extends Configured implements Tool {
 
 		// 5. Set other misc configuration parameters (#reducer tasks, counters, env variables, etc.)
 		FileSystem fs = FileSystem.get(conf);
-		fs.copyFromLocalFile(new Path("file:///users/pgt/0801624s/uog-bigdata/src/main/resources/stopword-list.txt"), 
-				new Path("hdfs://bigdata-10.dcs.gla.ac.uk:8020/user/0801624s/stopword-list.txt"));
-		job.addCacheFile(new Path("/src/main/resources/stopword-list.txt").toUri());
-		job.getConfiguration().setBoolean("wordcount.skip.patterns", true);
+        fs.copyFromLocalFile(new Path("file:///users/pgt/0801624s/bigdata/src/main/resources/stopword-list.txt"), 
+                new Path("hdfs://bigdata-10.dcs.gla.ac.uk:8020/user/0801624s/stopword-list.txt"));
+        job.addCacheFile(new Path("/user/0801624s/stopword-list.txt").toUri());
 		//job.setNumReduceTasks(2);
 		
 		// 6. Finally, submit the job to the cluster and wait for it to complete; set param to false if you don't want to see progress reports
