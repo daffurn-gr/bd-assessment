@@ -31,6 +31,7 @@ public class MyIndexer extends Configured implements Tool {
 		// 2. Set mapper and reducer classes
 		job.setMapperClass(MyMapper.class);
 		job.setPartitionerClass(MyPartitioner.class);
+		//job.setGroupingComparatorClass(MyGroupingComparator.class);
 		job.setReducerClass(MyReducer.class);
 
 		// 3. Set final output key and value classes

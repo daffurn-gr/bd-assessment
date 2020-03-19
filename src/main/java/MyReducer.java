@@ -64,7 +64,7 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 				}
 			}
 			this.outValue.set(sb.toString());
-			mos.write(this.currentTerm, this.outValue, "postings");
+			mos.write("postings", this.currentTerm, this.outValue);
 			this.postings.clear();				
 		}
 		// Update current term.
@@ -75,7 +75,7 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 			// Output if document <k,v>-pair, where v = docLength.
 			if (freq == 0) {
 				this.outValue.set(docFreq.getFrequency().toString());
-				mos.write(this.currentTerm, this.outValue, "documentSizes");
+				mos.write("documentSizes", this.currentTerm, this.outValue);
 			} else {
 				this.posting[0] = docFreq.getTerm().toString();
 				this.posting[1] = Integer.toString(freq);
