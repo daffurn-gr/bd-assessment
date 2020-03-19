@@ -55,16 +55,18 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 		// If new term is countered then emit the old term with its posting list.
 		if ((this.currentTerm != null) && (this.currentTerm != term)) {
 			
-			/** StringBuilder */
-			StringBuilder sb = new StringBuilder();
-			for (String[] v : this.postings) {
-				for (String s : v) {
-					sb.append(s);
-			 		sb.append(", ");
+			if (!this.postings.isEmpty() ) {
+				/** StringBuilder */
+				StringBuilder sb = new StringBuilder();
+				for (String[] v : this.postings) {
+					for (String s : v) {
+						sb.append(s);
+						sb.append(", ");
+					}
 				}
-			}
-			this.outValue.set(sb.toString());
-			mos.write("postings", this.currentTerm, this.outValue);
+				this.outValue.set(sb.toString());
+				mos.write("postings", this.currentTerm, this.outValue);				
+			}			
 			this.postings.clear();				
 		}
 		// Update current term.
