@@ -109,10 +109,10 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Pair> {
 			
 		// Output <(term, freq), (doc, freq)>.
 		for (Entry<String, Integer> entry : termDocFrequencies.entrySet()) {
-			this.termFreqencyPair.set(entry.getKey(), entry.getValue());
-			this.docFreqencyPair.set(docTitle, entry.getValue());
-			context.write(termFreqencyPair, docFreqencyPair);
-		}
+			this.termFreqencyPair.set(entry.getKey(), entry.getValue().intValue());
+			this.docFreqencyPair.set(docTitle, entry.getValue().intValue());
+			context.write(this.termFreqencyPair, this.docFreqencyPair);
+		} termDocFrequencies.clear(); // Clear term->freq map for next document.
 		
 		// Output <(doc, 0), (doc, length>). 
 		this.termFreqencyPair.set(docTitle, 0);;
@@ -120,5 +120,6 @@ public class MyMapper extends Mapper<LongWritable, Text, Pair, Pair> {
 		context.write(this.termFreqencyPair, this.docFreqencyPair);
 		// Increment Counter NUM_RECORDS.
 		context.getCounter(Counters.NUM_RECORDS).increment(1);	
+		
 	}
 }
