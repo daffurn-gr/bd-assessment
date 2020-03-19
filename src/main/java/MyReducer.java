@@ -35,7 +35,7 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 			}
 		}
 		this.outValue.set(sb.toString());
-		mos.write(this.currentTerm, this.outValue, "postings");
+		mos.write("postings", this.currentTerm, this.outValue);
 		this.postings.clear();
 		mos.close();
 	}
