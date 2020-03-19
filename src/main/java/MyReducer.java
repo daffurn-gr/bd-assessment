@@ -13,7 +13,6 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 	private MultipleOutputs<Text, Text> mos;
 	// Class fields for intermediate data.
 	private String currentTerm      = null;
-	private String[] posting        = new String[2];
 	private List<String[]> postings = new ArrayList<String[]>();
 	// Class field for setting the output value from the reducer.
 	private Text outValue = new Text();
@@ -79,9 +78,10 @@ public class MyReducer extends Reducer<Pair, Pair, Text, Text> {
 				this.outValue.set(docFreq.getFrequency().toString());
 				mos.write("documentSizes", this.currentTerm, this.outValue);
 			} else {
-				this.posting[0] = docFreq.getTerm().toString();
-				this.posting[1] = Integer.toString(freq);
-				this.postings.add(this.posting);	
+				String[] posting = new String[2];
+				posting[0] = docFreq.getTerm().toString();
+				posting[1] = Integer.toString(freq);
+				this.postings.add(posting);	
 			}
 		}
 	}
